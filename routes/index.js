@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const request = require('request');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.q}&key=${process.env.MAPS_KEY_API}`, (err, rese, body) => {
+    return res.json(JSON.parse(rese.body));
+  });
 });
 
 module.exports = router;
